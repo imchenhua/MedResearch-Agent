@@ -18,7 +18,11 @@
         "./skills/stats-basics",
         "./skills/medical-figures",
         "./skills/manuscript-imrad",
-        "./skills/systematic-review"
+        "./skills/systematic-review",
+        "./skills/meta-analysis",
+        "./skills/diagnostic-accuracy",
+        "./skills/grant-writing",
+        "./skills/reviewer-response"
       ]
     }
   ]

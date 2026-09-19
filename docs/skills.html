@@ -26,6 +26,14 @@
 .step{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;line-height:1.65}
 .step-n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:grid;place-items:center;font-size:12.5px;color:var(--text-dim)}
 .note{margin-top:20px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:var(--card);font-size:13px;line-height:1.7;color:var(--text-dim)}
+.modal{position:fixed;inset:0;background:rgba(7,8,13,.74);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px;z-index:100}
+.modal.open{display:flex}
+.modal-box{background:var(--bg-soft);border:1px solid var(--border);border-radius:16px;max-width:840px;width:100%;max-height:84vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-bottom:1px solid var(--border)}
+.modal-head h3{margin:0;font-size:15px}
+.modal-body{padding:20px;overflow:auto;font-size:13px;line-height:1.8;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--text-dim)}
+.skill-card h3{cursor:pointer;transition:color .15s}
+.skill-card h3:hover{color:var(--accent)}
 </style>
 </head>
 <body>
@@ -133,6 +141,16 @@
   </div>
 </footer>
 
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modal-title">技能详情</h3>
+      <button class="btn btn-ghost btn-sm" id="modal-close">关闭</button>
+    </div>
+    <div class="modal-body" id="modal-body">加载中…</div>
+  </div>
+</div>
+
 <script>
 const BUILTIN = [
   { slug:'pubmed-search', name:'PubMed 文献检索', desc:'PICO 拆解 + MeSH 检索式构造，用 NCBI E-utilities 检索、去重并整理引用。' },
@@ -142,10 +160,15 @@ const BUILTIN = [
   { slug:'stats-basics', name:'常用统计分析', desc:'按数据类型与分布选检验方法，先做前提检验，报告 P 值 + 效应量 + 95% CI。' },
   { slug:'medical-figures', name:'医学图表规范', desc:'KM 曲线、森林图、CONSORT 流程图要点，含分辨率、字体与色盲友好要求。' },
   { slug:'manuscript-imrad', name:'论文写作与投稿自查', desc:'IMRaD 结构要点 + CONSORT/STROBE/PRISMA 对照 + 投稿前自查清单。' },
-  { slug:'systematic-review', name:'系统综述与 Meta 分析', desc:'PRISMA 2020 全流程：注册、检索、筛选、偏倚评估、异质性处理与发表偏倚检验。' },
+  { slug:'systematic-review', name:'系统综述（PRISMA）', desc:'PRISMA 2020 全流程：注册、检索、筛选、偏倚风险评估、流程图与清单。' },
+  { slug:'meta-analysis', name:'Meta 分析', desc:'定量合并多个研究：效应量转换、固定/随机效应模型、异质性探索与发表偏倚检验。' },
+  { slug:'diagnostic-accuracy', name:'诊断准确性研究', desc:'按 STARD 报告：敏感度、特异度、似然比、ROC/AUC，识别谱偏倚与金标准不完美。' },
+  { slug:'grant-writing', name:'基金申请书撰写', desc:'立项依据、技术路线、创新点、研究基础，含评审视角自评与常见硬伤检查。' },
+  { slug:'reviewer-response', name:'审稿意见回复', desc:'逐条回复审稿意见，含分类处理、措辞拿捏、修改位置标注与礼貌反驳。' },
 ];
 
 const SOURCES = [
+  { repo:'apideed/claude-scientific-skills', count:'165', lic:'MIT', licOk:true, desc:'科学技能库：生物、化学、医学、药物发现，含 100+ 科学数据库' },
   { repo:'aipoch/medical-research-skills', count:'140+', lic:'MIT', licOk:true, desc:'医学研究全流程：选题、设计、分析、写作、投稿、审稿、基金' },
   { repo:'anthropics/healthcare', count:'10', lic:'官方', licOk:true, desc:'医疗信息化：FHIR、ICD-10 编码、预授权、临床文本抽取' },
   { repo:'anthropics/skills', count:'官方合集', lic:'官方条款', licOk:false, desc:'通用能力：docx / pdf / xlsx / pptx 等文档处理' },
@@ -157,7 +180,7 @@ const RAW = REPO.replace('github.com', 'raw.githubusercontent.com') + '/main/plu
 
 document.getElementById('builtin-grid').innerHTML = BUILTIN.map((s) => `
   <div class="card skill-card">
-    <h3>${s.name}</h3>
+    <h3 data-slug="${s.slug}" data-name="${s.name}" title="点击查看完整 SKILL.md">${s.name}</h3>
     <p>${s.desc}</p>
     <div class="skill-actions">
       <button class="btn btn-ghost btn-sm copy-btn" data-copy="${s.slug}" data-raw="${RAW}/${s.slug}/SKILL.md">复制内容</button>
@@ -176,7 +199,39 @@ document.getElementById('src-body').innerHTML = SOURCES.map((s) => `
   </tr>
 `).join('');
 
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+
+async function openSkillDetail(slug, name) {
+  modal.classList.add('open');
+  modalTitle.textContent = name;
+  modalBody.textContent = '加载中…';
+  document.body.style.overflow = 'hidden';
+  try {
+    const res = await fetch(`${RAW}/${slug}/SKILL.md`);
+    if (!res.ok) throw new Error(String(res.status));
+    modalBody.textContent = await res.text();
+  } catch {
+    modalBody.textContent = '加载失败。内容托管在 raw.githubusercontent.com，请确认网络可访问后重试。';
+  }
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
 document.addEventListener('click', async (e) => {
+  const title = e.target.closest('.skill-card h3[data-slug]');
+  if (title) {
+    await openSkillDetail(title.dataset.slug, title.dataset.name);
+    return;
+  }
   const btn = e.target.closest('.copy-btn');
   if (!btn) return;
   const label = btn.textContent;
