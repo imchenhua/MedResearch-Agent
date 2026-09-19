@@ -48,15 +48,15 @@ MedResearch Agent is not "an editor with a chat sidebar bolted on". It puts the 
 
 ## Screenshots
 
-| Multi-agent | Workspace | Terminal |
+| Literature search | Skill marketplace | Terminal |
 | --- | --- | --- |
-| ![Multi-agent](./docs/assets/multi_agent_1.png) | ![Workspace](./docs/assets/workspace_1.png) | ![Terminal](./docs/assets/terminal_1.png) |
+| ![Literature search](./docs/assets/evidence-review.png) | ![Skill marketplace](./docs/assets/plugins.png) | ![Terminal](./docs/assets/terminal_1.png) |
 
-| Browser | Settings | Bot |
+| Multi-agent | Settings | Bots |
 | --- | --- | --- |
-| ![Browser](./docs/assets/browser_1.png) | ![Settings](./docs/assets/setting_1.png) | ![Bot](./docs/assets/bot_1.png) |
+| ![Multi-agent](./docs/assets/multi_agent_1.png) | ![Settings](./docs/assets/setting_1.png) | ![Bots](./docs/assets/bot_1.png) |
 
-> Screenshots live in [`docs/assets/`](./docs/assets) and can be regenerated with `npm run readme:screenshots`.
+> Screenshots live in [`docs/assets/`](./docs/assets).
 
 ---
 

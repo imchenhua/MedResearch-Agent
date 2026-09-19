@@ -48,15 +48,15 @@ MedResearch Agent 不是"给现有编辑器塞一个聊天侧栏"。它把 Agent
 
 ## 截图
 
-| 多 Agent | 工作区 | 终端 |
+| 文献检索 | 技能市场 | 终端 |
 | --- | --- | --- |
-| ![多 Agent](./docs/assets/multi_agent_1.png) | ![工作区](./docs/assets/workspace_1.png) | ![终端](./docs/assets/terminal_1.png) |
+| ![文献检索](./docs/assets/evidence-review.png) | ![技能市场](./docs/assets/plugins.png) | ![终端](./docs/assets/terminal_1.png) |
 
-| 浏览器 | 设置 | Bot |
+| 多 Agent 协作 | 设置 | Bot |
 | --- | --- | --- |
-| ![浏览器](./docs/assets/browser_1.png) | ![设置](./docs/assets/setting_1.png) | ![Bot](./docs/assets/bot_1.png) |
+| ![多 Agent 协作](./docs/assets/multi_agent_1.png) | ![设置](./docs/assets/setting_1.png) | ![Bot](./docs/assets/bot_1.png) |
 
-> 截图存放在 [`docs/assets/`](./docs/assets)，可用 `npm run readme:screenshots` 重新导出。
+> 截图存放在 [`docs/assets/`](./docs/assets)。
 
 ---
 
