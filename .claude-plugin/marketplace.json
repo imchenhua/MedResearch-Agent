@@ -1,0 +1,25 @@
+{
+  "name": "medresearch-medical-skills",
+  "metadata": {
+    "description": "面向临床与医学研究的研究流程技能包",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "medical-research",
+      "description": "医学研究技能包：文献检索 → 引文核验 → 数据清洗 → 统计分析 → 图表 → 论文写作。",
+      "source": "./plugins/medical-research",
+      "strict": false,
+      "skills": [
+        "./skills/pubmed-search",
+        "./skills/clinical-trial-lookup",
+        "./skills/citation-verify",
+        "./skills/clinical-data-cleaning",
+        "./skills/stats-basics",
+        "./skills/medical-figures",
+        "./skills/manuscript-imrad",
+        "./skills/systematic-review"
+      ]
+    }
+  ]
+}
