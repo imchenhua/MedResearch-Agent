@@ -73,6 +73,19 @@ jobs:
           path: build-win.log
           if-no-files-found: warn
 
+      - name: Publish build log to ci-logs branch
+        if: steps.winbuild.outcome == 'failure'
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan ci-logs
+          git rm -rf --cached . | Out-Null
+          Copy-Item build-win.log ci-windows-build.log -Force
+          git add -f ci-windows-build.log
+          git commit -m "ci: windows build log from run ${{ github.run_id }}"
+          git push -f origin ci-logs
+
       - name: Fail if Windows build failed
         if: steps.winbuild.outcome == 'failure'
         run: exit 1
