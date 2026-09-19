@@ -34,6 +34,11 @@
 .modal-body{padding:20px;overflow:auto;font-size:13px;line-height:1.8;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--text-dim)}
 .skill-card h3{cursor:pointer;transition:color .15s}
 .skill-card h3:hover{color:var(--accent)}
+.cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.cat-btn{cursor:pointer;padding:6px 13px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--text-dim);font-size:13px;font-family:inherit;transition:all .15s}
+.cat-btn:hover{border-color:var(--accent);color:var(--text)}
+.cat-btn.is-active{border-color:var(--accent);color:var(--text);background:rgba(91,140,255,.12)}
+.cat-btn span{opacity:.55;font-size:11.5px;margin-left:2px}
 </style>
 </head>
 <body>
@@ -77,6 +82,7 @@
         聚焦「文献 → 数据 → 统计 → 图表 → 论文」主线的 8 个技能，随本仓库以插件市场形式发布。
         每个技能都可以单独下载，或直接复制内容粘到设置里导入。
       </p>
+      <div class="cat-filter" id="cat-filter"></div>
       <div class="skill-grid" id="builtin-grid"></div>
     </div>
   </section>
@@ -166,10 +172,20 @@ const SOURCES = [
   { repo:'imchenhua/MedResearch-Agent', count:'8', lic:'Apache-2.0', licOk:true, desc:'本站自建：医学研究流程精简版' },
 ];
 
+const CATS = [
+  { id: 'all', label: '全部' },
+  { id: 'evidence', label: '文献与证据', slugs: ['pubmed-search', 'clinical-trial-lookup', 'citation-verify', 'systematic-review', 'meta-analysis'] },
+  { id: 'data', label: '数据与统计', slugs: ['clinical-data-cleaning', 'stats-basics', 'diagnostic-accuracy'] },
+  { id: 'writing', label: '写作与发表', slugs: ['manuscript-imrad', 'medical-figures', 'grant-writing', 'reviewer-response'] },
+];
+
 const REPO = 'https://github.com/imchenhua/MedResearch-Agent';
 const RAW = REPO.replace('github.com', 'raw.githubusercontent.com') + '/main/plugins/medical-research/skills';
 
-document.getElementById('builtin-grid').innerHTML = BUILTIN.map((s) => `
+let activeCat = 'all';
+
+function skillCard(s) {
+  return `
   <div class="card skill-card">
     <h3 data-slug="${s.slug}" data-name="${s.name}" title="点击查看完整 SKILL.md">${s.name}</h3>
     <p>${s.desc}</p>
@@ -177,8 +193,29 @@ document.getElementById('builtin-grid').innerHTML = BUILTIN.map((s) => `
       <button class="btn btn-ghost btn-sm copy-btn" data-copy="${s.slug}" data-raw="${RAW}/${s.slug}/SKILL.md">复制内容</button>
       <a class="btn btn-ghost btn-sm" href="${RAW}/${s.slug}/SKILL.md" download="${s.slug}-SKILL.md">下载</a>
     </div>
-  </div>
-`).join('');
+  </div>`;
+}
+
+function renderBuiltin() {
+  const cat = CATS.find((c) => c.id === activeCat);
+  const list = !cat || cat.id === 'all' ? BUILTIN : BUILTIN.filter((s) => cat.slugs.includes(s.slug));
+  document.getElementById('builtin-grid').innerHTML = list.map(skillCard).join('');
+}
+
+document.getElementById('cat-filter').innerHTML = CATS.map((c) => {
+  const n = c.id === 'all' ? BUILTIN.length : c.slugs.length;
+  return `<button type="button" class="cat-btn${c.id === 'all' ? ' is-active' : ''}" data-cat="${c.id}">${c.label} <span>${n}</span></button>`;
+}).join('');
+
+document.getElementById('cat-filter').addEventListener('click', (e) => {
+  const btn = e.target.closest('.cat-btn');
+  if (!btn) return;
+  activeCat = btn.dataset.cat;
+  document.querySelectorAll('.cat-btn').forEach((b) => b.classList.toggle('is-active', b === btn));
+  renderBuiltin();
+});
+
+renderBuiltin();
 
 document.getElementById('src-body').innerHTML = SOURCES.map((s) => `
   <tr>
