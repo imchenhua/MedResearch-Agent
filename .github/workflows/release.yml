@@ -17,7 +17,7 @@ env:
 
 jobs:
   windows-release:
-    runs-on: windows-latest
+    runs-on: windows-2022
     env:
       ASYNC_BUILTIN_TEAM_SOURCE: ${{ github.workspace }}/agency-agents
       npm_config_msvs_version: "2022"
