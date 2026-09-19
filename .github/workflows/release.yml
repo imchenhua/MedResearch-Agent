@@ -45,14 +45,19 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Locate Visual Studio for node-gyp
+      - name: Set up MSVC environment (vcvars64)
         shell: pwsh
         run: |
           $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
           $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
           if (-not $vs) { Write-Error 'no Visual Studio with C++ tools found'; exit 1 }
-          "GYP_MSVS_OVERRIDE_PATH=$vs" >> $env:GITHUB_ENV
-          Write-Host "VS path: $vs"
+          $vcvars = Join-Path $vs "VC\Auxiliary\Build\vcvars64.bat"
+          if (-not (Test-Path $vcvars)) { Write-Error "vcvars64.bat not found at $vcvars"; exit 1 }
+          Write-Host "using: $vcvars"
+          cmd /c "`"$vcvars`" >nul 2>&1 && set" | ForEach-Object {
+            if ($_ -match '^([^=]+)=(.*)$') { "$($Matches[1])=$($Matches[2])" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8 }
+          }
+          Write-Host "VCINSTALLDIR => $env:VCINSTALLDIR"
 
       - name: Build Windows installers
         id: winbuild
