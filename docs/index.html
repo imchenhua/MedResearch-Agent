@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MedResearch Agent — 面向临床与医学研究的开源研究工作台</title>
+<meta name="description" content="MedResearch Agent 是面向临床与医学研究的开源 AI 研究工作台。Agent、编辑器、Git、终端与工具执行收进同一个桌面工作区，本地优先，研究数据留在你自己的机器上。">
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">M</span>
+      MedResearch Agent
+    </a>
+    <nav class="nav-links">
+      <a href="#why">医学场景</a>
+      <a href="#features">能力</a>
+      <a href="#screenshots">截图</a>
+      <a href="#start">快速开始</a>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/imchenhua/MedResearch-Agent" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>让 Agent 成为<br><span class="grad">医学研究的中心</span></h1>
+      <p class="hero-sub">面向临床与医学研究的开源研究工作台。</p>
+      <p class="hero-desc">
+        从文献调研到数据处理，从统计分析到论文成稿——Agent、编辑器、Git、终端与工具执行收进同一个桌面工作区。
+        并且本地优先：你的研究数据、线程、计划与工作区状态，全程留在自己的机器上。
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://github.com/imchenhua/MedResearch-Agent" target="_blank" rel="noopener">
+          在 GitHub 查看
+        </a>
+        <a class="btn btn-ghost" href="#start">快速开始</a>
+      </div>
+      <div class="stack">
+        <span>Electron 41</span><span>React 19</span><span>Vite 6</span>
+        <span>TypeScript 5.9</span><span>Vitest 3</span>
+      </div>
+
+      <div class="preview reveal">
+        <div class="preview-bar">
+          <i></i><i></i><i></i><em>Multi-agent — MedResearch Agent</em>
+        </div>
+        <img src="assets/multi_agent_1.png" alt="MedResearch Agent 多 Agent 协作界面" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY MEDICINE ============ -->
+  <section id="why">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-kicker">Built for medicine</div>
+        <h2>为什么它适合医学研究</h2>
+        <p>在通用能力之上，围绕研究工作流本身的四个取向。</p>
+      </div>
+
+      <div class="grid">
+        <div class="card reveal">
+          <div class="card-ico">▣</div>
+          <h3>数据留在本地</h3>
+          <p>临床资料与未发表的结果不必上传第三方云端。</p>
+          <ul>
+            <li>线程、设置、计划与工作区状态全部落在本机</li>
+            <li>BYOK 接入模型，密钥只存在本机</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-ico">◎</div>
+          <h3>每一步都可审阅</h3>
+          <p>研究过程要可追溯、可复现，而不是一个黑箱结果。</p>
+          <ul>
+            <li>Agent 改动按 hunk 接受或回滚</li>
+            <li>文件快照与 diff 预览直接摆在对话旁</li>
+            <li>工具参数流式展示，带审批闸门</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-ico">⇄</div>
+          <h3>接得上研究工具链</h3>
+          <p>不用为了用 AI 而放弃你现有的分析环境。</p>
+          <ul>
+            <li>内嵌终端直接跑 Python、R 与统计脚本</li>
+            <li>通过 MCP 接入文献库与专用数据源</li>
+            <li>内置 SSH / SFTP，连远程计算节点</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-ico">⧉</div>
+          <h3>像课题组一样分工</h3>
+          <p>把长任务拆给不同角色，而不是一个人硬扛。</p>
+          <ul>
+            <li>Team 模式编排 Lead + specialist / reviewer</li>
+            <li>嵌套与后台子 Agent，长任务后台跑</li>
+            <li>Plan 模式先出方案，确认后再执行</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-kicker">Capabilities</div>
+        <h2>一个工作区，装下研究全流程</h2>
+        <p>从对话到改动落地，从编辑器到 Git 与终端，不必在窗口之间来回跳。</p>
+      </div>
+
+      <div class="grid">
+        <div class="card reveal">
+          <div class="card-ico">◆</div>
+          <h3>Agent 与对话</h3>
+          <p>四种 Composer 模式，多轮工具循环，改动可逐块审阅。</p>
+          <ul>
+            <li>Agent / Plan / Ask / Debug 四种模式</li>
+            <li>工具参数流式展示、审批闸门、错误恢复</li>
+            <li>Team 模式编排 Lead + specialist / reviewer</li>
+            <li>嵌套与后台子 Agent，委派长任务</li>
+            <li>按 hunk 接受 / 回滚，diff 预览就在对话旁</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-ico">▤</div>
+          <h3>编辑与工作区</h3>
+          <p>Monaco 编辑器 + 一等公民的内嵌终端。</p>
+          <ul>
+            <li>快速打开、文件树、Markdown 预览</li>
+            <li>xterm.js 终端，不是抽屉里的附属品</li>
+            <li>文件搜索、符号索引</li>
+            <li>内嵌 TypeScript 语言服务：定义跳转 + 诊断</li>
+            <li>内置 SSH / SFTP 终端与 profile 保存</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-ico">⑂</div>
+          <h3>Git 全流程</h3>
+          <p>版本控制不离开应用窗口，研究过程可回溯。</p>
+          <ul>
+            <li>状态、diff 预览、暂存、提交</li>
+            <li>推送与上游设置</li>
+            <li>分支列表 / 切换 / 新建</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-ico">◈</div>
+          <h3>平台与集成</h3>
+          <p>浏览器、协议、机器人与模型接入一次配好。</p>
+          <ul>
+            <li>浏览器侧栏 + 自动化，含 MITM 请求捕获链路</li>
+            <li>MCP 服务器：配置并调用工具</li>
+            <li>Bot 平台：Slack / Discord / Telegram / 飞书</li>
+            <li>BYOK 接入 OpenAI 兼容、Anthropic、Gemini</li>
+            <li>自动更新、主题与布局持久化</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREENSHOTS ============ -->
+  <section id="screenshots">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-kicker">Screenshots</div>
+        <h2>界面一览</h2>
+        <p>多 Agent、工作区、终端、浏览器、设置与 Bot——真实运行截图。</p>
+      </div>
+
+      <div class="shots">
+        <figure class="shot reveal">
+          <img src="assets/multi_agent_1.png" alt="多 Agent 协作" loading="lazy">
+          <figcaption>多 Agent 协作</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/workspace_1.png" alt="工作区与编辑器" loading="lazy">
+          <figcaption>工作区与编辑器</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/terminal_1.png" alt="内嵌终端" loading="lazy">
+          <figcaption>内嵌终端</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/browser_1.png" alt="浏览器侧栏" loading="lazy">
+          <figcaption>浏览器侧栏</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/setting_1.png" alt="模型与设置" loading="lazy">
+          <figcaption>模型与设置</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/bot_1.png" alt="Bot 平台集成" loading="lazy">
+          <figcaption>Bot 平台集成</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUICK START ============ -->
+  <section id="start">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-kicker">Quick start</div>
+        <h2>四步跑起来</h2>
+        <p>需要 Node.js 20 或更高版本（开发与测试基于 Node 22）。</p>
+      </div>
+
+      <div class="code reveal">
+        <div class="code-head"><span>Terminal</span><span>macOS · Linux · Windows</span></div>
+<pre><code><span class="c"># 1. 克隆仓库</span>
+<span class="k">git clone</span> <span class="s">https://github.com/imchenhua/MedResearch-Agent.git</span>
+<span class="k">cd</span> MedResearch-Agent
+
+<span class="c"># 2. 安装依赖</span>
+npm install
+
+<span class="c"># 3. 启动（构建主进程 + Vite + Electron）</span>
+npm run dev</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STRIP ============ -->
+  <section>
+    <div class="wrap">
+      <div class="strip reveal">
+        <div class="stat"><div class="n">711</div><div class="l">测试通过</div></div>
+        <div class="stat"><div class="n">118</div><div class="l">测试文件</div></div>
+        <div class="stat"><div class="n">4</div><div class="l">Composer 模式</div></div>
+        <div class="stat"><div class="n">本地优先</div><div class="l">研究数据留在本机</div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>MedResearch Agent · Apache-2.0 · 面向临床与医学研究的开源研究工作台</div>
+    <div class="foot-links">
+      <a href="https://github.com/imchenhua/MedResearch-Agent" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/imchenhua/MedResearch-Agent/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="https://github.com/imchenhua/MedResearch-Agent/blob/main/README.zh-CN.md" target="_blank" rel="noopener">中文文档</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav 边框：滚动后才显示
+  var nav = document.getElementById('nav');
+  var onScroll = function () {
+    nav.classList.toggle('scrolled', window.scrollY > 8);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // 进入视口时淡入
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add('in'); });
+  }
+</script>
+
+</body>
+</html>

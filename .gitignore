@@ -1,0 +1,24 @@
+node_modules/
+dist/
+release/
+*.log
+.DS_Store
+Thumbs.db
+# IDE
+.idea/
+
+# Local agent / IDE config (per-machine, per-repo)
+.cursor/
+.claude/
+.async/
+
+# Electron main bundle (rebuild with npm run build:main)
+electron/main.bundle.cjs
+electron/main.bundle.cjs.map
+resources/builtin-team/
+
+# Local env / OS
+.env
+.env.*
+REFACTOR_PLAN.md
+/.vscode/settings.json

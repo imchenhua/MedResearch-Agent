@@ -1,0 +1,179 @@
+{
+  "name": "medresearch-agent",
+  "version": "0.0.45",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.bundle.cjs",
+  "scripts": {
+    "sync:builtin-team": "node scripts/sync-builtin-team-repo.mjs",
+    "build:main": "node esbuild.main.mjs",
+    "build:main:watch": "node esbuild.main.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "build:renderer": "npm run typecheck && vite build",
+    "build": "npm run sync:builtin-team && npm run build:main && npm run build:renderer",
+    "preview": "npm run build:renderer && vite preview",
+    "icons": "node scripts/export-app-icon.mjs",
+    "readme:screenshots": "node scripts/export-readme-screenshots.mjs",
+    "desktop": "npm run build && cross-env MEDRESEARCH_LOAD_DIST=1 electron .",
+    "desktop:dev": "npm run dev",
+    "dev": "npm run build:main && node scripts/free-port-5173.mjs && concurrently -k \"npm run build:main:watch\" \"vite\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "dev:debug": "npm run build:main && node scripts/free-port-5173.mjs && concurrently -k \"npm run build:main:watch\" \"vite\" \"wait-on http://127.0.0.1:5173 && cross-env MEDRESEARCH_DEVTOOLS=1 electron .\"",
+    "start:electron": "npm run desktop",
+    "rebuild:native": "electron-builder install-app-deps",
+    "release:mac": "npm run build && npm run icons && npm run rebuild:native && electron-builder --mac dmg zip --publish never",
+    "release:mac:unsigned": "npm run build && npm run icons && npm run rebuild:native && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac dmg zip --publish never",
+    "release:mac:dir": "npm run build && npm run icons && npm run rebuild:native && electron-builder --mac dir --publish never",
+    "release:mac:arm64": "npm run build && npm run icons && npm run rebuild:native && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac dmg zip --arm64 --publish never",
+    "release:mac:x64": "npm run build && npm run icons && npm run rebuild:native && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac dmg zip --x64 --publish never",
+    "release:win": "npm run build && npm run icons && npm run rebuild:native && electron-builder --win nsis msi --x64 --publish never",
+    "release:win:dir": "npm run build && npm run icons && npm run rebuild:native && electron-builder --win dir --x64 --publish never",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "build": {
+    "appId": "com.medresearch.agent",
+    "productName": "MedResearch Agent",
+    "artifactName": "MedResearch-Agent-${version}-${arch}.${ext}",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "resources/**/*",
+      "node_modules/**/*",
+      "package.json",
+      "!electron/**/*.map"
+    ],
+    "extraFiles": [
+      {
+        "from": "node_modules/electron/dist",
+        "to": ".",
+        "filter": [
+          "chrome_100_percent.pak",
+          "d3dcompiler_47.dll",
+          "dxcompiler.dll",
+          "icudtl.dat",
+          "libGLESv2.dll",
+          "vk_swiftshader.dll"
+        ]
+      }
+    ],
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "win": {
+      "icon": "resources/icons/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "msi",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "icon": "resources/icons/icon.icns",
+      "category": "public.app-category.developer-tools",
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.inherit.plist",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ]
+    },
+    "dmg": {
+      "icon": "resources/icons/icon.icns"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "differentialPackage": true
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "imchenhua",
+      "repo": "MedResearch-Agent",
+      "releaseType": "release"
+    }
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/diff": "^5.2.3",
+    "@types/minimatch": "^5.1.2",
+    "@types/node-forge": "^1.3.14",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/ssh2-sftp-client": "^9.0.6",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "electron": "41.1.0",
+    "electron-builder": "^26.8.1",
+    "electron-devtools-installer": "^4.0.0",
+    "esbuild": "^0.24.2",
+    "png-to-ico": "^3.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.0.3",
+    "vitest": "^3.2.4",
+    "wait-on": "^8.0.1"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@chenglou/pretext": "^0.0.3",
+    "@fontsource/inter": "^5.2.5",
+    "@google/generative-ai": "^0.21.0",
+    "@larksuiteoapi/node-sdk": "^1.60.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@monaco-editor/react": "^4.6.0",
+    "@tanstack/react-virtual": "^3.13.23",
+    "@vscode/sudo-prompt": "^9.3.2",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-search": "^0.16.0",
+    "@xterm/xterm": "^5.5.0",
+    "better-sqlite3": "^12.9.0",
+    "chokidar": "^3.6.0",
+    "diff": "^5.2.0",
+    "electron-updater": "^6.8.3",
+    "https-proxy-agent": "^8.0.0",
+    "iconv-lite": "^0.7.2",
+    "minimatch": "^9.0.9",
+    "monaco-editor": "^0.52.0",
+    "node-forge": "^1.4.0",
+    "node-pty": "^1.1.0",
+    "openai": "^4.96.0",
+    "playwright-core": "^1.59.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-markdown": "^10.1.0",
+    "recharts": "^2.15.0",
+    "remark-gfm": "^4.0.1",
+    "sharp": "^0.34.5",
+    "shiki": "^4.0.2",
+    "ssh2": "^1.17.0",
+    "ssh2-sftp-client": "^11.0.0",
+    "vscode-jsonrpc": "^8.2.1"
+  }
+}
