@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>技能库 — MedResearch Agent</title>
+<meta name="description" content="MedResearch Agent 技能库：自建医学研究技能，以及可直接添加的第三方技能市场源。">
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="site.css">
+<style>
+.skill-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-top:24px}
+.skill-card{display:flex;flex-direction:column;gap:10px}
+.skill-card h3{margin:0;font-size:15px}
+.skill-card p{margin:0;font-size:13px;color:var(--text-dim);line-height:1.65;flex:1}
+.skill-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.copy-btn{cursor:pointer}
+.copy-btn.done{border-color:var(--accent-3);color:var(--accent-3)}
+.src-table{width:100%;border-collapse:collapse;margin-top:24px;font-size:13.5px}
+.src-table th,.src-table td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:middle}
+.src-table th{color:var(--text-dim);font-weight:500;font-size:12px;letter-spacing:.02em}
+.src-table td code{font-size:12.5px}
+.src-table tr:last-child td{border-bottom:none}
+.lic{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11.5px;border:1px solid var(--border);color:var(--text-dim)}
+.lic.ok{color:var(--accent-3);border-color:rgba(47,211,196,.35)}
+.steps{display:grid;gap:14px;margin-top:24px}
+.step{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;line-height:1.65}
+.step-n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:grid;place-items:center;font-size:12.5px;color:var(--text-dim)}
+.note{margin-top:20px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:var(--card);font-size:13px;line-height:1.7;color:var(--text-dim)}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="./">
+      <span class="brand-mark">M</span>
+      MedResearch Agent
+    </a>
+    <nav class="nav-links">
+      <a href="./#why">医学场景</a>
+      <a href="./#features">能力</a>
+      <a href="skills.html" aria-current="page">技能</a>
+      <a href="./#start">快速开始</a>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/imchenhua/MedResearch-Agent" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>技能库</h1>
+      <p class="hero-sub">把研究方法固化成可复用的技能</p>
+      <p class="hero-desc">
+        技能是写在 <code>SKILL.md</code> 里的可执行方法论。装进 MedResearch Agent 后，
+        输入框打 <code>./</code> 即可调用。这里既有我们自建的医学研究技能，也有几个可以直接添加的第三方市场源。
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-kicker">自建</span>
+        <h2>医学研究技能包</h2>
+      </div>
+      <p class="hero-desc">
+        聚焦「文献 → 数据 → 统计 → 图表 → 论文」主线的 8 个技能，随本仓库以插件市场形式发布。
+        每个技能都可以单独下载，或直接复制内容粘到设置里导入。
+      </p>
+      <div class="skill-grid" id="builtin-grid"></div>
+      <div class="skill-actions" style="margin-top:22px">
+        <button class="btn btn-primary copy-btn" data-copy="imchenhua/MedResearch-Agent">复制市场源地址</button>
+        <a class="btn btn-ghost" href="https://github.com/imchenhua/MedResearch-Agent/tree/main/plugins/medical-research/skills" target="_blank" rel="noopener">在 GitHub 查看全部</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-kicker">第三方</span>
+        <h2>可直接添加的技能市场</h2>
+      </div>
+      <p class="hero-desc">
+        这些源由他人维护，添加后应用会自动拉取和更新。我们只做导览，不复制内容 ——
+        这样它们的更新你能第一时间用到，也不存在版权问题。
+      </p>
+      <table class="src-table">
+        <thead>
+          <tr><th>源地址</th><th>技能数</th><th>许可</th><th>定位</th><th></th></tr>
+        </thead>
+        <tbody id="src-body"></tbody>
+      </table>
+      <div class="note">
+        <strong>为什么用「添加源」而不是打包下载？</strong><br>
+        源是活的：作者修 bug、加技能，你这边重新拉取就同步了。而复制一份到本地，从那一刻起就开始过期。
+        第三方技能本质是注入 Agent 的指令，安装前建议先读一遍它的 <code>SKILL.md</code>。
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-kicker">安装</span>
+        <h2>三步装好</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-n">1</div><div>打开 MedResearch Agent → <strong>设置 → 插件</strong></div></div>
+        <div class="step"><div class="step-n">2</div><div>在输入框粘贴源地址（如 <code>aipoch/medical-research-skills</code>）→ 点 <strong>添加市场</strong></div></div>
+        <div class="step"><div class="step-n">3</div><div>在市场里找到插件 → <strong>安装</strong>。装完在输入框打 <code>./</code> 就能调用</div></div>
+      </div>
+      <div class="note">
+        想自己写技能？技能就是一个带 frontmatter 的 Markdown 文件：
+        <code>skills/&lt;slug&gt;/SKILL.md</code>，开头写 <code>name</code> 和 <code>description</code>，正文写方法论。
+        设置 → 规则/技能 里可以直接粘贴导入。
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot">
+    <div>MedResearch Agent · Apache-2.0 · 面向临床与医学研究的开源研究工作台</div>
+    <div class="foot-links">
+      <a href="https://github.com/imchenhua/MedResearch-Agent" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/imchenhua/MedResearch-Agent/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="https://github.com/imchenhua/MedResearch-Agent/blob/main/README.zh-CN.md" target="_blank" rel="noopener">中文文档</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const BUILTIN = [
+  { slug:'pubmed-search', name:'PubMed 文献检索', desc:'PICO 拆解 + MeSH 检索式构造，用 NCBI E-utilities 检索、去重并整理引用。' },
+  { slug:'clinical-trial-lookup', name:'临床试验检索', desc:'通过 ClinicalTrials.gov v2 API 按适应症/分期/状态筛选，输出 NCT 号与主要终点。' },
+  { slug:'citation-verify', name:'引文核验', desc:'用 Crossref 与 PubMed 逐条核验 DOI/PMID，识别编造的「幻觉引用」，投稿前自查。' },
+  { slug:'clinical-data-cleaning', name:'临床数据清洗', desc:'缺失值、离群值、变量编码规整，生成基线特征表（Table 1），全程留清洗日志。' },
+  { slug:'stats-basics', name:'常用统计分析', desc:'按数据类型与分布选检验方法，先做前提检验，报告 P 值 + 效应量 + 95% CI。' },
+  { slug:'medical-figures', name:'医学图表规范', desc:'KM 曲线、森林图、CONSORT 流程图要点，含分辨率、字体与色盲友好要求。' },
+  { slug:'manuscript-imrad', name:'论文写作与投稿自查', desc:'IMRaD 结构要点 + CONSORT/STROBE/PRISMA 对照 + 投稿前自查清单。' },
+  { slug:'systematic-review', name:'系统综述与 Meta 分析', desc:'PRISMA 2020 全流程：注册、检索、筛选、偏倚评估、异质性处理与发表偏倚检验。' },
+];
+
+const SOURCES = [
+  { repo:'aipoch/medical-research-skills', count:'140+', lic:'MIT', licOk:true, desc:'医学研究全流程：选题、设计、分析、写作、投稿、审稿、基金' },
+  { repo:'anthropics/healthcare', count:'10', lic:'官方', licOk:true, desc:'医疗信息化：FHIR、ICD-10 编码、预授权、临床文本抽取' },
+  { repo:'anthropics/skills', count:'官方合集', lic:'官方条款', licOk:false, desc:'通用能力：docx / pdf / xlsx / pptx 等文档处理' },
+  { repo:'imchenhua/MedResearch-Agent', count:'8', lic:'Apache-2.0', licOk:true, desc:'本站自建：医学研究流程精简版' },
+];
+
+const REPO = 'https://github.com/imchenhua/MedResearch-Agent';
+const RAW = REPO.replace('github.com', 'raw.githubusercontent.com') + '/main/plugins/medical-research/skills';
+
+document.getElementById('builtin-grid').innerHTML = BUILTIN.map((s) => `
+  <div class="card skill-card">
+    <h3>${s.name}</h3>
+    <p>${s.desc}</p>
+    <div class="skill-actions">
+      <button class="btn btn-ghost btn-sm copy-btn" data-copy="${s.slug}" data-raw="${RAW}/${s.slug}/SKILL.md">复制内容</button>
+      <a class="btn btn-ghost btn-sm" href="${RAW}/${s.slug}/SKILL.md" download="${s.slug}-SKILL.md">下载</a>
+    </div>
+  </div>
+`).join('');
+
+document.getElementById('src-body').innerHTML = SOURCES.map((s) => `
+  <tr>
+    <td><code>${s.repo}</code></td>
+    <td>${s.count}</td>
+    <td><span class="lic${s.licOk ? ' ok' : ''}">${s.lic}</span></td>
+    <td>${s.desc}</td>
+    <td><button class="btn btn-ghost btn-sm copy-btn" data-copy="${s.repo}">复制</button></td>
+  </tr>
+`).join('');
+
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.copy-btn');
+  if (!btn) return;
+  const label = btn.textContent;
+  try {
+    const raw = btn.dataset.raw;
+    const text = raw ? await (await fetch(raw)).text() : btn.dataset.copy;
+    await navigator.clipboard.writeText(text);
+    btn.classList.add('done');
+    btn.textContent = raw ? '已复制 SKILL.md' : '已复制';
+  } catch {
+    btn.textContent = '复制失败，请手动复制';
+  }
+  setTimeout(() => { btn.classList.remove('done'); btn.textContent = label; }, 1800);
+});
+</script>
+
+</body>
+</html>
