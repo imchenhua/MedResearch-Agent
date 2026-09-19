@@ -55,7 +55,22 @@ jobs:
           Write-Host "VS path: $vs"
 
       - name: Build Windows installers
-        run: npm run release:win
+        id: winbuild
+        continue-on-error: true
+        shell: pwsh
+        run: npm run release:win 2>&1 | Tee-Object -FilePath build-win.log
+
+      - name: Upload Windows build log
+        if: steps.winbuild.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build-log
+          path: build-win.log
+          if-no-files-found: warn
+
+      - name: Fail if Windows build failed
+        if: steps.winbuild.outcome == 'failure'
+        run: exit 1
 
       - name: Upload Windows release assets
         uses: actions/upload-artifact@v4
