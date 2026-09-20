@@ -79,7 +79,7 @@
       ]
     },
     "mac": {
-      "icon": "resources/icons/icon.icns",
+      "icon": "resources/icons/icon.png",
       "category": "public.app-category.developer-tools",
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.inherit.plist",
@@ -101,7 +101,7 @@
       ]
     },
     "dmg": {
-      "icon": "resources/icons/icon.icns"
+      "icon": "resources/icons/icon.png"
     },
     "nsis": {
       "oneClick": false,

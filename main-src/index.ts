@@ -40,7 +40,7 @@ function resolveAppIconPath(): string | undefined {
 		process.platform === 'win32'
 			? ['icon.ico', 'icon.png']
 			: process.platform === 'darwin'
-				? ['icon.icns', 'icon.png']
+				? ['icon.png', 'icon.icns']
 				: ['icon.png'];
 	for (const root of iconSearchRoots) {
 		for (const name of names) {
