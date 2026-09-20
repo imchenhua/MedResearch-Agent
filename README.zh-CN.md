@@ -7,8 +7,8 @@ MedResearch Agent 不是"给现有编辑器塞一个聊天侧栏"。它把 Agent
 > English: [README.md](./README.md)
 
 - 版本：`0.0.45`
-- 官网：[cyrus818.github.io/MedResearch-Agent](https://cyrus818.github.io/MedResearch-Agent/)
-- 下载：[macOS 安装包（dmg / zip）](https://github.com/imchenhua/MedResearch-Agent/releases/latest)
+- 官网：[imchenhua.github.io/MedResearch-Agent](https://imchenhua.github.io/MedResearch-Agent/)
+- 下载：[macOS（dmg / zip）· Windows（exe / msi）](https://github.com/imchenhua/MedResearch-Agent/releases/latest)
 - 许可证：[Apache-2.0](./LICENSE)
 - 技术栈：Electron 41 · React 19 · Vite 6 · TypeScript 5.9 · Vitest 3
 - 测试：**711 个通过**，覆盖 118 个测试文件

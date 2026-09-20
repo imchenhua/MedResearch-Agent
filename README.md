@@ -7,8 +7,8 @@ MedResearch Agent is not "an editor with a chat sidebar bolted on". It puts the 
 > 中文文档：[README.zh-CN.md](./README.zh-CN.md)
 
 - Version: `0.0.45`
-- Website: [cyrus818.github.io/MedResearch-Agent](https://cyrus818.github.io/MedResearch-Agent/)
-- Download: [macOS builds (dmg / zip)](https://github.com/imchenhua/MedResearch-Agent/releases/latest)
+- Website: [imchenhua.github.io/MedResearch-Agent](https://imchenhua.github.io/MedResearch-Agent/)
+- Download: [macOS (dmg / zip) · Windows (exe / msi)](https://github.com/imchenhua/MedResearch-Agent/releases/latest)
 - License: [Apache-2.0](./LICENSE)
 - Stack: Electron 41 · React 19 · Vite 6 · TypeScript 5.9 · Vitest 3
 - Tests: **711 passing** across 118 files
