@@ -18,7 +18,6 @@
 | `npm run test` | 运行 Vitest |
 | `npm run test:watch` | 运行 Vitest watch |
 | `npm run icons` | 从 SVG 导出应用图标 |
-| `npm run readme:screenshots` | 导出 README 截图 |
 | `npm run release:win` | 打包 Windows 安装包（nsis + msi） |
 | `npm run release:win:dir` | 打包 Windows dir 产物 |
 | `npm run release:mac` | 打包 macOS 安装包（dmg + zip，x64 + arm64） |
