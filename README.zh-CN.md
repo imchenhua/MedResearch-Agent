@@ -11,7 +11,7 @@ MedResearch Agent 不是"给现有编辑器塞一个聊天侧栏"。它把 Agent
 - 下载：[macOS（dmg / zip）· Windows（exe / msi）](https://github.com/imchenhua/MedResearch-Agent/releases/latest)
 - 许可证：[Apache-2.0](./LICENSE)
 - 技术栈：Electron 41 · React 19 · Vite 6 · TypeScript 5.9 · Vitest 3
-- 测试：**711 个通过**，覆盖 118 个测试文件
+- 测试：**接近 700 个单元测试**，覆盖 118 个文件
 
 ---
 

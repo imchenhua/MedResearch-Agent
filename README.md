@@ -11,7 +11,7 @@ MedResearch Agent is not "an editor with a chat sidebar bolted on". It puts the 
 - Download: [macOS (dmg / zip) · Windows (exe / msi)](https://github.com/imchenhua/MedResearch-Agent/releases/latest)
 - License: [Apache-2.0](./LICENSE)
 - Stack: Electron 41 · React 19 · Vite 6 · TypeScript 5.9 · Vitest 3
-- Tests: **711 passing** across 118 files
+- Tests: **~700 unit tests** across 118 files
 
 ---
 
